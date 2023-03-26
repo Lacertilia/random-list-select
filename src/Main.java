@@ -1,5 +1,6 @@
 import java.io.File;
 import java.io.FileNotFoundException;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
 
@@ -23,6 +24,16 @@ public class Main {
     }
 
     private void createFile(){
-
+        File file = new File("listOfGames.txt");
+        try {
+            if(file.createNewFile()){
+                System.out.println("File created.");
+            }else{
+                System.out.println("File already exists.");
+            }
+        } catch (IOException e) {
+            System.out.println("An error occurred while creating the file.");
+            e.printStackTrace();
+        }
     }
 }
