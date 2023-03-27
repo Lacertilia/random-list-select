@@ -4,6 +4,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Scanner;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class FileManager {
 
@@ -19,9 +21,12 @@ public class FileManager {
     public void updateList(ArrayList<String> newList){
         ArrayList<String> update = new ArrayList<>();
         for(String S: newList){
-            update.add(checkInput(S));
+            if(checkInput(S).equals("")){
+                update.add(S);
+            }
         }
         this.content = update;
+        this.writeToFile(this.content);
     }
 
     public ArrayList<String> getList(){
@@ -68,8 +73,13 @@ public class FileManager {
     }
 
     private String checkInput(String input){
-        //Check the input so that it does not contain harmful content
-
-        return input;
+        Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+        Matcher m = p.matcher(input);
+        if(m.find()){
+            System.out.println("There is a special character in your line, Please only use A-Z, a-z, 0-9");
+            return "";
+        }else{
+            return input;
+        }
     }
 }
